@@ -6,6 +6,9 @@ class Vector2:
         self.x = x
         self.y = y
 
+    def coordinates(self) -> tuple:
+        return self.x, self.y
+
     def coordinates_list(self) -> list:
         return [self.x, self.y]
 
@@ -23,3 +26,6 @@ class Vector2:
 
     def __mul__(self, other) -> float:
         return self.x * other.x + self.y * other.y
+
+    def __str__(self):
+        return f"{self.coordinates()}"
