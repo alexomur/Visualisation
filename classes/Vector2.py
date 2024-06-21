@@ -14,6 +14,15 @@ class Vector2:
         self.y = y
         self.velocity = velocity
 
+    def act(self, commands: list = None):
+        """
+        Funny idea of making a commands list
+        Method will complete all the commands
+        :param commands: if None, method will complete existing
+        :return:
+        """
+        pass
+
     def move(self) -> None:
         """
         The method changes the coords of the vector in accordance with its velocity

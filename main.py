@@ -15,10 +15,15 @@ def main() -> int:
     exit_code: int = KEEP_WORKING
 
     vec: Vector2 = Vector2(0., 0., (1., 1.))
+    objects = [vec]
+
     while exit_code == KEEP_WORKING:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 exit_code = WINDOW_CLOSED_REASON
+        for obj in objects:
+            if type(obj) == Vector2:
+                obj.move()
         pygame.display.update()
     return exit_code
 
