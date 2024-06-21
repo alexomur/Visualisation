@@ -1,10 +1,30 @@
+from constants.initialisation import FPS
+from typing import Tuple
+
+
 class Vector2:
     x: float
     y: float
 
-    def __init__(self, x, y):
+    # vectors change every second
+    velocity: Tuple[float, float]
+
+    def __init__(self, x: float, y: float, velocity: Tuple[float, float]):
         self.x = x
         self.y = y
+        self.velocity = velocity
+
+    def move(self) -> None:
+        """
+        The method changes the coords of the vector in accordance with its velocity
+        The method is assumed to be executed every frame
+        """
+        change = [self.velocity[0]/FPS, self.velocity[1]/FPS]
+        self.x += change[0]
+        self.y += change[1]
+
+    def set_velocity(self, new_velocity: Tuple[float, float] = (0., 0.)):
+        self.velocity = new_velocity
 
     def coordinates(self) -> tuple:
         return self.x, self.y
