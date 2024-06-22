@@ -5,6 +5,9 @@ from constants.exit_codes import *
 from constants.initialisation import *
 
 from classes.Vector2 import Vector2
+
+from dimensions.meters import Meters
+
 import pygame
 
 
@@ -14,7 +17,10 @@ def main() -> int:
     pygame.display.set_caption("Visualisation")
     exit_code: int = KEEP_WORKING
 
-    vec: Vector2 = Vector2(0., 0., (1., 1.))
+    height: Meters = Meters("5 km")
+    print(height)
+
+    """vec: Vector2 = Vector2(0., 0., (1., 1.))
     objects = [vec]
 
     while exit_code == KEEP_WORKING:
@@ -22,9 +28,9 @@ def main() -> int:
             if event.type == pygame.QUIT:
                 exit_code = WINDOW_CLOSED_REASON
         for obj in objects:
-            if type(obj) == Vector2:
+            if type(obj) is Vector2:
                 obj.move()
-        pygame.display.update()
+        pygame.display.update()"""
     return exit_code
 
 
