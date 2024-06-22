@@ -40,7 +40,7 @@ class Dimension:
         dim: str = s[1].split(self.dim_name)[0]
         return x*self.prefixes[dim]
 
-    def setValue(self, value: str):
+    def setValue(self, value: str) -> None:
         value_SI = self.toSI(value)
         self.value_SI = value_SI
         self.value = f"{value_SI} {self.dim_name}"
