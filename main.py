@@ -18,7 +18,9 @@ def main() -> int:
     exit_code: int = KEEP_WORKING
 
     height: Meters = Meters("5 km")
-    print(height)
+    width: Meters = Meters("1 km")
+
+    print(height / width)
 
     """vec: Vector2 = Vector2(0., 0., (1., 1.))
     objects = [vec]
@@ -37,3 +39,4 @@ def main() -> int:
 if __name__ == "__main__":
     exit_code = main()
     exit(exit_code)
+

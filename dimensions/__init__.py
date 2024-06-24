@@ -9,8 +9,11 @@ def is_number(s):
 class Dimension:
     value_SI: float
     value: str
+    power: int
 
-    dim_name: str  # "s" for seconds or "m" for meters for example
+    # "s" for seconds or "m" for meters for example
+    # "s^2" for power of 2
+    dim_name: str
 
     prefixes: dict[str, float] = {
         "T": 1e12,
@@ -28,22 +31,30 @@ class Dimension:
         "p": 1e-12
     }
 
+    def __init__(self, x: str | float, power: int = 1):
+        self.setValue(x, power)
+
     def toSI(self, arg: str | float = None) -> float:
         if arg is None:
             return self.value_SI
+        if is_number(arg):
+            return float(arg)
 
         arg = str(arg)
         s = arg.split(" ")
         x: float = float(s[0])
-        if is_number(arg):
-            return x
+        power: int = int(s[1].split("^")[1])
         dim: str = s[1].split(self.dim_name)[0]
-        return x*self.prefixes[dim]
+        return x * (self.prefixes[dim]**power)
 
-    def setValue(self, value: str) -> None:
+    def setValue(self, value: str | float, power: int = 1) -> None:
         value_SI = self.toSI(value)
         self.value_SI = value_SI
         self.value = f"{value_SI} {self.dim_name}"
+
+        if power != 1:
+            value += f"^{power}"
+        self.power = power
 
     def __float__(self):
         return self.value_SI
@@ -57,7 +68,35 @@ class Dimension:
     def __bool__(self):
         return bool(self.value_SI)
 
-    """
-    It meant to create __add__, __sub__ and other methods 
-    for every class
-    """
+    def __add__(self, other):
+        if isinstance(other, Dimension):
+            if type(self) == type(other) and self.dim_name == other.dim_name:
+                return type(self)(self.value_SI + other.value_SI, self.power)
+            else:
+                raise TypeError(f"Unsupported operand type(s) for +: {self.dim_name} ('{type(self)}') and {other.dim_name} ('{type(other)}')")
+        else:
+            raise TypeError(f"Unsupported operand type(s) for +: {self.dim_name} ('{type(self)}') and {other.dim_name} ('{type(other)}')")
+
+    def __sub__(self, other):
+        if isinstance(other, Dimension):
+            if type(self) == type(other):
+                return type(self)(self.value_SI - other.value_SI)
+            else:
+                raise TypeError(f"Unsupported operand type(s) for -: {self.dim_name} ('{type(self)}') and {other.dim_name} ('{type(other)}')")
+        else:
+            raise TypeError(f"Unsupported operand type(s) for -: {self.dim_name} ('{type(self)}') and {other.dim_name} ('{type(other)}')")
+
+    # TODO: Add the ability to change the power of a number using multiplication and division
+    # TODO: Add the ability to multiply and divide different dimensions (and change dim_name)
+    def __mul__(self, other):
+        if isinstance(other, (int, float)):
+            new_obj = type(self)(self.value_SI * other)
+            return new_obj
+        else:
+            raise TypeError(f"Unsupported operand type(s) for *: {self.dim_name} ('{type(self)}') and {other.dim_name} ('{type(other)}')")
+
+    def __truediv__(self, other):
+        if isinstance(other, (int, float)):
+            return type(self)(self.value_SI / other)
+        else:
+            raise TypeError(f"Unsupported operand type(s) for /: {self.dim_name} ('{type(self)}') and {other.dim_name} ('{type(other)}')")
