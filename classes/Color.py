@@ -74,7 +74,7 @@ class Color:
 
 if __name__ == "__main__":
     c1 = Color(hex="#112362")
-    c2 = Color(rgb=(12, 123, 75))
+    c2 = Color(rgb=(12, 256, 75))
     print(f"{c1}")
     print(f"{c2}")
     print(f"{c1 + c2}")
