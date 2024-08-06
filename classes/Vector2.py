@@ -48,10 +48,10 @@ class Vector2:
         return (self.x**2+self.y**2)**0.5
 
     def __add__(self, other):
-        return Vector2(self.x+other.x, self.y+other.y)
+        return Vector2(self.x+other.x, self.y+other.y,(0., 0.))
 
     def __sub__(self, other):
-        return Vector2(self.x-other.x, self.y-other.y)
+        return Vector2(self.x-other.x, self.y-other.y,(0., 0.))
 
     def __mul__(self, other) -> float:
         return self.x * other.x + self.y * other.y
